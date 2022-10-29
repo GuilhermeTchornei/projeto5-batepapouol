@@ -5,8 +5,12 @@ body, *{
     box-sizing: border-box;
 }
 
+body{
+    min-width: 100%;
+}
+
 header, footer{
-    width: 100%;
+    width: 100vw;
     height: 80px;
 
     display: flex;
@@ -67,10 +71,15 @@ main{
 main div{
     min-height: 40px;
 
+    padding: 5px 8px;
+
     display: flex;
     align-items: center;
     margin-bottom: 4px;
+
+    word-wrap: break-word;
 }
+
 .status{
     background-color: #dddddd;
 }
@@ -81,8 +90,11 @@ main div{
     background-color: #FFDEDE;
 }
 p{
+    max-width: 100%;
+
     font-weight: 400;
     font-size: 14px;
+
 }
 .time{
     color: #AAAAAA;
