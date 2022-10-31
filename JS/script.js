@@ -93,3 +93,11 @@ function sendMessage() {
 
     input.value = '';
 }
+
+function sendWithEnter(event) {
+    if (event.key == "Enter")
+    {
+        event.preventDefault();
+        sendMessage();
+    }
+}
