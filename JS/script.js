@@ -1,8 +1,18 @@
 let user;
 const mainContainer = document.querySelector("main");
 const input = document.querySelector("textarea");
+const sendingTo = document.querySelector(".sendingTo")
+const sideBar = document.querySelector(".sidebar");
+let contacts = document.querySelector(".contacts");
+let contactElementSelected = document.querySelector(".contacts .selected");
+let visibilityElementSelected = document.querySelector(".visibility .selected");
+let contactName = "Todos";
+let visibilitySelected = "Público";
+
 
 enterRoom();
+//getContacts();
+//setSendingTo();
 function enterRoom() {
     user = { name: prompt("Qual seu lindo nome?") };
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/participants", user);
@@ -12,8 +22,8 @@ function enterRoom() {
 
 function connected() {
     setInterval(keepConnection, 5000);
-    getMessages();
-    setInterval(getMessages, 3000);
+    update()
+    setInterval(update, 3000);
 }
 
 
@@ -69,7 +79,7 @@ function showMessage(message) {
             <p><span class="time">${message.time}</span> <span class = "name">${message.from}</span> para <span class = "name">${message.to}</span>: ${message.text}</p>
         </div>`;
     }
-    else if(message.to === user.name)
+    else if(message.to === user.name || message.from === user.name)
     {
         mainContainer.innerHTML += `
         <div class="${message.type}">
@@ -82,9 +92,9 @@ function sendMessage() {
     if (input.value === '') return;
     const message = {
         from: user.name,
-        to: "Todos",
+        to: contactElementSelected.querySelector("p").innerHTML,
         text: input.value,
-        type: "message"
+        type: visibilitySelected === "Público" ? "message" : "private_message"
     };
 
     const promise = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", message);
@@ -100,4 +110,87 @@ function sendWithEnter(event) {
         event.preventDefault();
         sendMessage();
     }
+}
+function getContacts() {
+    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
+    promise.then((response) => {
+        contacts.innerHTML = `
+        <div onclick="selectContact(this)">
+            <ion-icon name="people"></ion-icon>
+            <p>Todos</p>
+            <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+        </div>`;
+        let contact = response.data;
+        for (let i = 0; i < contact.length; i++)
+        {
+            showContact(contact[i]);
+        }
+        selectContact(contacts.querySelector(".selected"));
+        if (contactElementSelected === null)
+        {
+            selectContact(contacts.querySelector("div"));
+        }
+    })
+}
+
+function showContact(contact) {
+    if (contact.name === contactElementSelected.querySelector("p").innerHTML)
+    {
+        contacts.innerHTML += `
+            <div class="selected" onclick="selectContact(this)">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <p>${contact.name}</p>
+                <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+            </div>`;
+    }
+    else
+    {
+        contacts.innerHTML += `
+            <div onclick="selectContact(this)">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <p>${contact.name}</p>
+                <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+            </div>`;
+    }
+}
+
+function toggleSideBar() {
+    sideBar.classList.toggle("hidden");
+}
+
+function selectContact(element) {
+    if (element === null)
+    {
+        contactElementSelected = null;
+        return;
+    }
+
+    contactElementSelected !== null ? contactElementSelected.classList.remove("selected") : null;
+
+    contactElementSelected = element;
+    contactName = contactElementSelected.querySelector("p").innerHTML;
+
+    contactElementSelected.classList.add("selected");
+
+    setSendingTo();
+}
+
+function selectVisibility(element) {
+    visibilityElementSelected.classList.remove("selected");
+
+    visibilityElementSelected = element;
+    visibilitySelected = visibilityElementSelected.querySelector("p").innerHTML;
+
+    element.classList.add("selected");
+
+    setSendingTo();
+}
+
+function setSendingTo() {
+    sendingTo.innerHTML = `Enviando para ${contactName} (${visibilitySelected})`;
+}
+
+function update() {
+    getMessages();
+    getContacts();
 }

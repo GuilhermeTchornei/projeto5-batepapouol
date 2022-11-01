@@ -13,13 +13,43 @@
     <header>
         <img src="./Images/logo 1.png">
         <button>
-            <ion-icon name="people"></ion-icon>
+            <ion-icon name="people" onclick="toggleSideBar()"></ion-icon>
         </button>
     </header>
+    <div class = "sidebar hidden">
+        <div class="transparentPanel" onclick="toggleSideBar()"></div>
+        <div class="contacts-visibility">
+            <h2>Escolha um contato para enviar mensagem:</h2>
+            <div class="contacts">
+                <div onclick="selectContact(this)" class="selected">
+                    <ion-icon name="people"></ion-icon>
+                    <p>Todos</p>
+                    <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+                </div>
+            </div>
+            <h2>Escolha a visibilidade:</h2>
+            <div class="visibility">
+                <div class="public selected" onclick="selectVisibility(this)">
+                    <ion-icon name="lock-open"></ion-icon>
+                    <p>Público</p>
+                    <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+                </div>
+                <div class="private" onclick="selectVisibility(this)">
+                    <ion-icon name="lock-closed"></ion-icon>
+                    <p>Reservadamente</p>
+                    <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+                </div>
+            </div>
+        </div>
+    </div>
     <main>
     </main>
     <footer>
-        <textarea type="text" placeholder="Escreva aqui..." onkeydown="sendWithEnter(event)"></textarea>
+        <div>
+            <textarea type="text" placeholder="Escreva aqui..." onkeydown="sendWithEnter(event)"></textarea>
+            <p class="sendingTo">Enviando para Todos (público)</p>
+        </div>
+
         <button onclick="sendMessage()">
             <ion-icon name="paper-plane-outline"></ion-icon>
         </button>
