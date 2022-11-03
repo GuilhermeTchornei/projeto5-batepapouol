@@ -13,44 +13,51 @@
     <header>
         <img src="./Images/logo 1.png">
         <button>
-            <ion-icon name="people" onclick="toggleSideBar()"></ion-icon>
+            <ion-icon name="people" onclick="toggleSideBar()" data-test="open-participants"></ion-icon>
         </button>
     </header>
+    <!--<div class="login">
+        <img src="./Images/logo 1.png">
+        <div>
+            <input type="text" placeholder="Digite seu nome">
+            <button onclick="login()">Entrar</button>
+        </div>
+    </div>-->
+    <main>
+    </main>
     <div class = "sidebar hidden">
         <div class="transparentPanel" onclick="toggleSideBar()"></div>
         <div class="contacts-visibility">
             <h2>Escolha um contato para enviar mensagem:</h2>
             <div class="contacts">
-                <div onclick="selectContact(this)" class="selected">
+                <div onclick="selectContact(this)" class="selected" data-test="all">
                     <ion-icon name="people"></ion-icon>
                     <p>Todos</p>
-                    <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+                    <ion-icon name="checkmark-sharp" class="checkmark" data-test="check"></ion-icon>
                 </div>
             </div>
             <h2>Escolha a visibilidade:</h2>
             <div class="visibility">
-                <div class="public selected" onclick="selectVisibility(this)">
+                <div class="public selected" onclick="selectVisibility(this)" data-test="public">
                     <ion-icon name="lock-open"></ion-icon>
                     <p>Público</p>
-                    <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+                    <ion-icon name="checkmark-sharp" class="checkmark" data-test="check"></ion-icon>
                 </div>
-                <div class="private" onclick="selectVisibility(this)">
+                <div class="private" onclick="selectVisibility(this)" data-test="private">
                     <ion-icon name="lock-closed"></ion-icon>
                     <p>Reservadamente</p>
-                    <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+                    <ion-icon name="checkmark-sharp" class="checkmark" data-test="check"></ion-icon>
                 </div>
             </div>
         </div>
     </div>
-    <main>
-    </main>
     <footer>
         <div>
-            <textarea type="text" placeholder="Escreva aqui..." onkeydown="sendWithEnter(event)"></textarea>
-            <p class="sendingTo">Enviando para Todos (público)</p>
+            <textarea type="text" placeholder="Escreva aqui..." onkeydown="sendWithEnter(event)" data-test="input-message"></textarea>
+            <p class="sendingTo" data-test="recipient">Enviando para Todos (público)</p>
         </div>
 
-        <button onclick="sendMessage()">
+        <button onclick="sendMessage()" data-test="send-message">
             <ion-icon name="paper-plane-outline"></ion-icon>
         </button>
     </footer>

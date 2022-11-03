@@ -68,21 +68,21 @@ function showMessage(message) {
     if (message.type === "status")
     {
         mainContainer.innerHTML += `
-        <div class="${message.type}">
+        <div class="${message.type}" data-test="message">
             <p><span class="time">${message.time}</span> <span class = "name">${message.from}</span> ${message.text}</p>
         </div>`;
     }
     else if (message.type === "message")
     {
         mainContainer.innerHTML += `
-        <div class="${message.type}">
+        <div class="${message.type}" data-test="message">
             <p><span class="time">${message.time}</span> <span class = "name">${message.from}</span> para <span class = "name">${message.to}</span>: ${message.text}</p>
         </div>`;
     }
     else if(message.to === user.name || message.from === user.name)
     {
         mainContainer.innerHTML += `
-        <div class="${message.type}">
+        <div class="${message.type}" data-test="message">
             <p><span class="time">${message.time}</span> <span class = "name">${message.from}</span> reservadamente para <span class = "name">${message.to}</span>: ${message.text}</p>
         </div>`;
     }
@@ -115,10 +115,10 @@ function getContacts() {
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
     promise.then((response) => {
         contacts.innerHTML = `
-        <div onclick="selectContact(this)">
+        <div onclick="selectContact(this)" data-test="all">
             <ion-icon name="people"></ion-icon>
             <p>Todos</p>
-            <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+            <ion-icon name="checkmark-sharp" class="checkmark" data-test="check"></ion-icon>
         </div>`;
         let contact = response.data;
         for (let i = 0; i < contact.length; i++)
@@ -137,19 +137,19 @@ function showContact(contact) {
     if (contact.name === contactElementSelected.querySelector("p").innerHTML)
     {
         contacts.innerHTML += `
-            <div class="selected" onclick="selectContact(this)">
+            <div class="selected" onclick="selectContact(this)" data-test="participant">
                 <ion-icon name="person-circle-outline"></ion-icon>
                 <p>${contact.name}</p>
-                <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+                <ion-icon name="checkmark-sharp" class="checkmark" data-test="check"></ion-icon>
             </div>`;
     }
     else
     {
         contacts.innerHTML += `
-            <div onclick="selectContact(this)">
+            <div onclick="selectContact(this)" data-test="participant">
                 <ion-icon name="person-circle-outline"></ion-icon>
                 <p>${contact.name}</p>
-                <ion-icon name="checkmark-sharp" class="checkmark"></ion-icon>
+                <ion-icon name="checkmark-sharp" class="checkmark" data-test="check"></ion-icon>
             </div>`;
     }
 }
